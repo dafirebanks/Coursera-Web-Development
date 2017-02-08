@@ -1,0 +1,77 @@
+body {
+  font-size: 16px;
+  color: #fff;
+  background-color: #61122f;
+  font-family: 'Comic Sans MS';
+}
+
+/** HEADER **/
+#header-nav {
+  background-color: #f6b319;
+  border-radius: 0;
+  border: 0;
+  /*height:100px;*/
+}
+
+.navbar-brand {
+  padding-top: 25px;
+  height: 100px;
+}
+.navbar-brand h1 { /* Food LLC */
+  font-family: 'Comic Sans MS';
+  color: DarkBlue;
+  font-size: 2.5em;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #222;
+  margin-top: 0;
+ /* margin-bottom: 20px;*/
+}
+.navbar-brand a:hover, .navbar-brand a:focus {
+  text-decoration: none;
+}
+
+/*Menu list*/
+#nav-list {
+  margin-top: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+#nav-list div {
+  color: #951C49;
+  font-size: 1.8em;
+  border: 1px solid black;
+  background-color: white;
+
+  
+}
+#nav-list div:hover {
+  background: #E7E7E7;
+}
+
+.navbar-header button.navbar-toggle, .navbar-header .icon-bar {
+  border: 1px solid #61122f;
+}
+.navbar-header button.navbar-toggle {
+  clear: both;
+  margin-top: -65px;
+}
+
+
+/* END HEADER */
+
+/* HOME PAGE */
+.title {
+  margin-bottom: 40px;
+}
+#paragraph{
+  padding: 20px;
+  text-align: justify;
+  background-color: SteelBlue;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/* END HOME PAGE */
+
+
+
