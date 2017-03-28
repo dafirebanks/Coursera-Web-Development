@@ -1,0 +1,717 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<title>CSCI 151 - Lab 4</title>
+<link rev="made" href="mailto:Benjamin.Kuperman@oberlin.edu">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<!-- 
+<link rel="stylesheet" type="text/css" href="http://www.cs.oberlin.edu/~kuperman/csci151/homework.css">
+-->
+<link rel="stylesheet" href="assets/css/main.css" />
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+<!-- <style type="text/css">
+<!--
+table, td, th, tr {
+    padding: 3px;
+    border: thin solid black;
+    border-collapse: collapse;
+}
+a img { border: none; }
+table{
+    margin: 0 auto;
+}
+ol ol { list-style-type: upper-latin; }
+ol ol ol { list-style-type: upper-roman; }
+pre.boxed {border: solid black 2pt; padding: 1em; }
+
+table#exampleTable {
+    width: 100%;
+    text-align: center;
+    padding: 3px;
+}
+
+@media screen {
+          em { color: red; font-style: normal; }
+          strong { color: blue; font-weight: bold; }
+          tt { color: blue; font-weight: bold; font-size: 120%; }
+          tt:hover { background-color: #ffffcc; }
+          html {border: 10px solid #a44245; }
+      }
+    
+
+-->
+<!-- </style> --> 
+</head>
+
+<body>
+
+<div id='top'>
+    <h1>CSCI 151 - Lab 4
+        <span class="subtitle">Link 'em up!</span></h1>
+    <p>
+    <em>Due by 6</em><em>pm, on Sunday, March 12, 2017</em>    </p>
+</div>
+<div id="wrapper">
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="inner">
+			<p>
+			In this lab you will implement a doubly linked list and perform some timing experiments on it.
+			</p>
+			The purpose of this lab is to:
+			</p>
+			<ul>
+			    <li>Have you implement a doubly linked list,</li>
+			    <li>Build your first iterator,</li>
+			    <li>Explore the differences in running time between different data orderings</li>
+			</ul>
+
+			<p>
+			<b>If you'd like, you may work with one partner on this lab.</b> If you
+			choose to do so, you must both contribute equally to the work of this lab, and
+			are both responsible for understanding its workings. You can then hand in
+			<b>one</b> submission between the two of you, with both your names clearly
+			marked okn each file you submit to the graders (e.g., README and headers of all files).
+			</p>
+
+
+			<h2>Part 1 - Doubly Linked Lists</h2>
+			<p>
+			Your first task is to implement a doubly linked list called
+			<tt>MyLinkedList&lt;T&gt;</tt> and a corresponding 
+			<a href="http://cs.oberlin.edu/~gr151/jdk-1.6/docs/api/java/util/ListIterator.html">ListIterator</a> 
+			for your class. 
+			</p>
+
+			<p>
+			    I have some starting point code for you here: 
+			    <a href="lab4.zip">lab4.zip</a>
+			    Create a Lab 4 folder and unzip this file into it before you create your Lab4 project in Eclipse.
+			</p>
+
+			<h3>MyLinkedList</h3>
+			<p>
+			In this lab you create a class called MyLinkedList&lt;T&gt;. Your class is just a subset of 
+			<a href="http://cs.oberlin.edu/~gr151/jdk-1.6/docs/api/java/util/LinkedList.html">LinkedList</a>, 
+			and therefore should match its behavior on this subset.
+			</p>
+
+			<p>
+			    Your class should extend 
+			    <a href="http://cs.oberlin.edu/~gr151/jdk-1.6/docs/api/java/util/AbstractList.html">AbstractList&lt;T&gt;</a>
+			    and later in this lab you will create a 
+			    <a href="http://cs.oberlin.edu/~gr151/jdk-1.6/docs/api/java/util/ListIterator.html">ListIterator</a>
+			    (either as a nested class or as an anonymous class).
+			</p>
+
+			<p>
+			    When you have finished your implementation, be sure to test it thoroughly
+			    before continuing. In doubly linked lists, the removal of items can be
+			    especially tricky as you need to be sure to properly update all of the pointers of the 
+			    next and previous elements, as well as handle the special cases for removal
+			    from the front or tail. Keep a piece of paper with you and draw pictures to
+			    help with your coding.  Nobody writes this code without referring to
+			    pictures.
+			</p>
+
+			<p>
+			    You should not allow "null" values to be inserted into the list; if the
+			    user of your class attempts to do so, you should throw a 
+			    <a href="http://cs.oberlin.edu/~gr151/jdk-1.6/docs/api/java/lang/NullPointerException.html">NullPointerException</a>.
+			</p>
+
+			<h4>Constructors</h4>
+			<p>
+			You should only need to have a single public 0-argument constructor that creates
+			an empty list and initializes all the necessary variables.
+			</p>
+
+			<p class="centered">
+			  <a href="http://cs.oberlin.edu/~bob/cs151/Labs/Lab4/empty-linked-list.png"><img src="http://cs.oberlin.edu/~bob/cs151/Labs/Lab4/empty-linked-list.png" width="50%" alt="Empty linked list"></a> 
+			</p>
+
+
+			<h4>Private Methods</h4>
+			d
+			<dt>Node getNth(int index)
+			<dd>a method that returns the <tt>Node</tt> at a specified index, not
+			    the content.
+			</dl>
+
+			<p>
+			    I also had a <code>removeNode(Node n)</code> method that allowed me to not have to duplicate code in my iterator.  But you aren't required to implement one unless you want to.
+			</p>
+
+			<h4>Public Methods</h4>
+			<dl class="code">
+			    <dt>boolean add(T data)
+			    <dt>void add(int index, T data)
+			    <dd>add an element into this list (either at end or by index)
+			    <dd>throw a NullPointerException if the user tries to add a null pointer
+			    <dd>throw IndexOutOfBoundsException as needed (same rules as MyArrayList)
+			    <dd>Note: the boolean add method will always return true; it is a boolean function due to the method definition in AbstractList
+
+			    <dt>T get(int i)
+			    <dd>get contents at position i
+			    <dd>throw IndexOutOfBoundsException as needed
+
+			    <dt>T set(int i,T data)
+			    <dd>set the value at index i to data, return old value
+			    <dd>throw NullPointerException if data is null
+			    <dd>throw IndexOutOfBoundsException as needed
+
+			    <dt>T remove(int i)
+			    <dd>remove (and return) the element from position i in this list
+			    <dd>throw IndexOutOfBoundsException as needed
+
+			    <dt>void clear()
+			    <dd>remove all elements from the list
+			    
+			    <dt>boolean isEmpty()
+			    <dd>determine if the list is empty
+			    
+			    <dt>int size()
+			    <dd>return the number of elements being stored
+			</dl>
+
+
+			<h4>Programming hints</h4>
+			<ul>
+			<li>
+			    You'll probably want to create a nested class (that is, a class inside a
+			    class) to represent a node in your linked list.  Remember that to do this,
+			    you can't declare the nested class as public, but you can include it in the same
+			    file (and even in the same class) as MyLinkedList.  If it is contained
+			    within  <tt>MyLinkedList&lt;T&gt;</tt>, then it can use the generic
+			    type <tt>T</tt> because it is within the class.
+			<pre class="prettyprint lang-java">
+			public class MyLinkedList&lt;T&gt; extends AbstractList&lt;T&gt; {
+			    class Node {
+			        T data;
+			        Node next;
+			        Node prev;
+
+			        // more code here
+			    }
+
+			    /* Lots more code will go here */
+			}</pre>
+			</li>
+
+			</ul>
+			</p>
+
+
+			<h3>Testing your List</h3>
+			<p>
+			    You should be able to re-use the tests you wrote in <a href="../lab02/index.html">Lab
+			    2</a> for MyArrayList.  <em>Copy</em> the MyArrayListTest.java file into your lab4 folder and
+			    rename it to be MyLinkedListTest.java.  
+			    Or just have eclipse create the JUnit source file
+			    <tt>MyLinkedListTest.java</tt> and copy and paste from your MyArrayListTest.java file.
+			    Then you can open up the file, rename the public class to be "<tt>MyLinkedListTest</tt>", and then update the methods to use LinkedLists instead of ArrayLists.  
+			    Just change MyArrayList and ArrayList to MyLinkedList and LinkedList throughout so you get lines like 
+			</p>
+			<pre class="code prettyprint lang-java">
+			MyLinkedList&lt;String&gt; x = new MyLinkedList&lt;String&gt;();
+			</pre>
+
+			<!-- -------------------------------------------------------------------------------- -->
+
+			<h2>Part 2 - ListIterator</h2>
+
+			<p>
+			Once your MyLinkedList class is working, 
+			    you will need to create a
+			    <a href="http://cs.oberlin.edu/~gr151/jdk-1.6/docs/api/java/util/ListIterator.html">ListIterator</a>
+			    which is returned by the factory <tt>listIterator()</tt> method.  You can do
+			    this one of two ways:
+			</p>
+			<ol class="padded">
+			    <li>Through the use of an anonymous class:
+			    <pre class="prettyprint lang-java">
+			public ListIterator&lt;T&gt; listIterator(){
+			    return new ListIterator&lt;T&gt;(){
+			        // TODO - your code here
+			    };
+			}</pre>
+			    </li>
+			    <li>Or through the use of a helper class MyLinkedListIterator nested in the same file as
+			    MyLinkedList in the same way the Node class is nested within MyLinkedList.
+			<pre class="prettyprint lang-java">
+			class MyLinkedListIterator implements ListIterator&lt;T&gt; {
+
+			    // class variables here
+
+			    public boolean hasNext() {
+			            // your code here
+			    }
+
+			    // more methods, etc.
+			}
+			    </li>
+			</ol>
+
+			<p>
+			    The text talks about nested classes on p. 161. If you want more, <a
+			    href="http://docs.oracle.com/javase/tutorial/java/javaOO/nested.html">here</a>
+			    is Oracle's discussion of nested classes. You can read about anonymous
+			    classes <a
+			    href="http://docs.oracle.com/javase/tutorial/java/javaOO/anonymousclasses.html">here</a>.
+			    Most people new to Java, and even some experienced ones, find nested
+			    classes easier to handle than anonymous classes, but you are free to use
+			    either technique.
+			</p>
+			<p>
+			    The ListIterator is able to traverse the list by moving a space at a time
+			    in either direction.  It might be helpful to consider that the iterator has
+			    size+1 positions in the list:  just before the head, between the 0 and 1
+			    index, ..., just after the tail.
+			    After one call to <code class="prettyprint lang-java">next()</code>, the iterator is logically in the state shown below (click to enlarge).
+			</p>
+
+			<p class="centered">
+			  <a href="linked-list-iterator.png"><img src="linked-list-iterator.png" width="50%" alt="Linked list iterator after one call to next()"></a> 
+			</p>
+
+			<p>
+			    In either case, you will need to implement all of the methods of a
+			    listIterator -- <tt>hasNext()</tt>/<tt>next()</tt>,
+			    <tt>hasPrevious()</tt>/<tt>previous()</tt>, 
+			    <tt>nextIndex()</tt>/<tt>previousIndex()</tt>,
+			    <tt>remove()</tt>,
+			    <tt>set(x)</tt>, and <tt>add(x)</tt>.
+			    See the JavaDoc for details, but I do have some notes below.
+			</p>
+
+			<p>
+			    You will need to implement all of the following methods.  See 
+			    <a href="http://cs.oberlin.edu/~gr151/jdk-1.6/docs/api/java/util/ListIterator.html">ListIterator</a>
+			    for details.
+			</p>
+
+			<h3>Public Methods to add to MyLinkedListIterator</h3>
+			<dl class="code">
+
+			<dt>boolean hasNext()
+			<dd>Return true if there are more elements when going in the forward direction.
+
+			<dt>T next()
+			<dd>Return the next element in the list when going forward.
+			<dd>Throw NoSuchElementException if there is no such element
+
+			<dt>boolean hasPrevious()
+			<dd>Return true if there are more elements when going in the reverse direction.
+
+			<dt>T previous()
+			<dd>Return the next element in the list when going backwards.
+			<dd>Throw NoSuchElementException if there is no such element
+
+			<dt>int nextIndex()
+			<dd>Return the index of the element that <em>would</em> be returned by a call to next()
+			<dd>Return the list size if at the end of the list
+
+			<dt>int previousIndex()
+			<dd>Return the index of the element that <em>would</em> be returned by a call to previous()
+			<dd>Return -1 if at the start of the list
+
+			<dt>void set(T x)
+			<dd>Change the value in the node returned by the most recent next/previous with the new value.
+			<dd>Throw an IllegalStateException if neither next nor previous were called
+			<dd>Throw an IllegalStateException if add or remove have been called since the most recent next/previous
+
+			<dt>void remove()
+			<dd>Remove the last element returned by the most recent call to either next/previous
+			<dd>Throw an IllegalStateException if neither next nor previous were called
+			<dd>Throw an IllegalStateException if add has been called since the most recent next/previous
+
+			<dt>void add(T x)
+			<dd>Insert the given item into the list immediately before whatever would have been returned by a call to next()
+			<dd>The new item is inserted before the current cursor, so it would be returned
+			    by a call to previous() immediately following.
+			<dd>The value of nextIndex or previousIndex both are increased by one
+			</dl>
+
+			<h3>Programming Hints</h3>
+
+			<p>
+			    I found that it was useful to have a number of state fields to simplify the
+			    writing of the various methods above.  Since the cursor of the ListIterator
+			    exists logically between 2 nodes, I found it was useful to just keep
+			    references to the next Node and the previous Node.  I also kept an int value
+			    of the index of the next node.  
+			</p>
+			    
+			<p>
+			    If you construct your MyLinkedList to use sentinel nodes as discussed in 
+			    the book and lecture, and you properly throw exceptions for going out of
+			    range, you shouldn't have to worry about checking for null values at the
+			    ends of the list since the sentinel nodes are there.
+			    <!-- 
+			    At the start, there is no previous, so that
+			    variable would be null, and at the end there is no next. 
+			    -->
+			</p>
+			<p>
+			    Since set() and remove() both change based on what direction we were last
+			    traversing, I kept a boolean flag to tell me if I was last going backwards.
+			</p>
+
+			<p>
+			    It is possible, and sometimes useful, to have several iterators working on
+			    the same list. If they both try to change the structure of the list you
+			    could get into an unpredictable state. Therefore you should check that the
+			    list hasn't been modified by someone else before you let an iterator make a
+			    modification. An easy way to do this is to have both the list and the
+			    iterator keep track of the number of modifications that have been made to
+			    the list. When the iterator is created it grabs the list's modification
+			    count. Each change the iterator makes to the list increases both its and
+			    the lists modification count. However, if you have two iterators modifying
+			    the list, one of them will find that its modification count will be
+			    different from the list's, so you will know that the list structure has
+			    been changed and that iterator is no longer viable.
+			    See <a
+			    href="http://cs.oberlin.edu/~gr151/jdk-1.6/docs/api/java/util/AbstractList.html#modCount">modCount</a>
+			    and the text for additional details and suggestions.
+			</p>
+
+			<h3>Public Methods to add to MyLinkedList.java</h3>
+			<p>
+			    Once you are <em>sure</em> your iterator is working, you should override
+			    the following methods in MyLinkedList.  Each of these should just create a
+			    new MyLinkedListIterator and return it.
+			</p>
+
+			<dl class="code">
+			    <dt>ListIterator&lt;T&gt; listIterator()
+			    <dt>Iterator&lt;T&gt; iterator()
+			    <dd>have these factory methods return an object of your ListIterator class for the current list.
+			</dl>
+
+			<p>
+			    <em>Note:</em> You inherit a working ListIterator from
+			    AbstractList, but the one you create will be more efficient.   I suggest
+			    that while you are building and initially testing your ListIterator, you
+			    create a differently named factory method to use.  I tend to use names
+			    like <code>QQQiterator()</code> and <code>QQQlistIterator()</code> until I'm sure
+			    it is working correctly.  If you jump right into overriding
+			    <code>iterator()</code>/<code>listIterator()</code> then things like
+			    <code>toString()</code> may stop working for you.
+			</p>
+
+			<p>
+			    <em>Be sure to have the factory methods called just <code>iterator()</code> and <code>listIterator()</code> in your submitted MyLinkedList and JUnit code.</em>
+			    Many students in the past have left it as 'QQQiterator' which broke things, and made the graders think you not implemented an iterator at all.
+			</p>
+
+
+			<h3>Testing your Iterator</h3>
+			<p>You'll want to test your <tt>ListIterator</tt> and be sure that it works properly. One good way to test this would be to create a JUnit test in MyLinkedListTest.java that will perform the <a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Eratosthenes</a>. In case you've not encountered this before, the "sieve" is used to determine prime numbers. The basic idea is that you initially list all of the integers in the range as potential prime numbers, then go through the possible factors one-by-one (starting from 2) and cross out any value on your list that is a multiple of it (but not the number itself).
+
+			<p>So assuming you have the numbers from 2-10, you'd first go through and cross out the multiples of 2 other than itself (4,6,8,10) and then multiples of 3 other than itself (9, since the 6 is already gone), etc. You should stop when you reach the square root of the larger range end. What you're left with should be all the primes in the given range.
+
+			<p>For example, the Sieve of [11,20] would return 11, 13, 17, and 19, and the Sieve of [1,20] would return 2, 3, 5, 7, 11, 13, 17, and 19.
+
+			<p>Note that the sieve is not a required part of this lab; it is just a suggestion for an interesting test case.</p>
+			  <!-- 
+			<h3>Testing Iterator</h3>
+			<p>
+			    You'll want to test your <tt>ListIterator</tt> and be sure that it works
+			    properly.  As a partial test, I'd like you to create a program that will
+			    perform the 
+			    <a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Eratosthenes</a>.
+			    In case you've not encountered this before, the basic idea is that you list
+			    all of the integers in a range, then go through the possible factors 1-by-1
+			    and cross out any value that is a multiple of it. 
+			</p>
+
+			<p>
+			    So assuming you have the numbers from 2-10, you'd first go through and cross
+			    out the multiples of 2 (2, 4, 6, 8, 10) and then multiples of 3 (3, 9), etc.
+			    Note that you can stop when you reach the square root of the larger value.
+			</p>
+
+			<p>
+			    For your program, I want you to create a file called <tt>Sieve.java</tt>
+			    that contains a main method that performs the sieve using the incorporated
+			    ListIterator.
+			    The main method should take up to 2 integers as arguments.
+			</p>
+			<ul class="padded">
+			    <li>
+			    If two arguments are given, print the list of primes between the first
+			    argument and the last argument, inclusive.  For example
+			    <pre class="boxed">
+			% <span class="typed">java Sieve 11 20</span> 
+			11
+			13
+			17
+			19</pre>
+			    </li>
+			    <li>If only one argument is given, then give all of the primes from 1 to the
+			    argument.  For example:
+			    <pre class="boxed">
+			% <span class="typed">java Sieve 20</span> 
+			2
+			3
+			5
+			7
+			11
+			13
+			17
+			19</pre></li>
+			</ul>
+			-->
+
+
+
+
+			<h2>Part 3 - MRU List</h2>
+			<p>
+			    Now that you are sure that you have a working <tt>MyLinkedList</tt> and a
+			    working iterator, let's create a variation of the list.
+			    You will be creating a Most Recently Used (MRU) List which is derived from
+			    your existing list.  The idea behind a MRU list is that when an item is
+			    looked up in a list, it is often looked up again in the near future.  To try
+			    and improve lookup times, whenever an item is "found" in the list, it is
+			    moved to the front of the list so that subsequent searches for it might be
+			    faster.
+			</p>
+
+			<p>
+			Create a class <tt>MRUList&lt;T&gt;</tt> that extends your <tt>MyLinkedList&lt;T&gt;</tt>.
+			You will need to override a few inherited methods.
+			</p>
+
+			<dl class="code">
+			    <dt>public boolean add(T x)
+			    <dt>public void add(int index, T x)
+			    <dd>Any item that has been added is considered to have been recently found,
+			        so just add these at index 0.
+			    <dd>You can access a parent's version of a method by using the
+			    <tt>super</tt> keyword.  For example <code class="prettyprint
+			        lang-java">super.add(0,x)</code> calls the parent class' method.
+
+			    <dt>public boolean contains(Object o)
+			    <dd>This method is the one you will be using to see if an item is in your
+			        list.  When this method finds the object in the list, it should remove
+			        it and add it to the front.  You can do this through the use of your
+			        ListIterator's remove() method if it is working.  You could also do this
+			        by finding the index of the item if it is in the list and then using
+			        your <code>remove(index)</code> and then adding back to the front. Note that contains is a standard method of Java List classes and is defined to take an argument of type Object rather than type T.  You can always cast the argument into type T if you need to.
+			</dl>
+
+			<h3>Testing MRUList</h3>
+			<p>
+			    Also create JUnit test cases for your MRUList in a file called MRUListTest.java.
+			</p>
+
+			<p>
+			    If you are having trouble getting your MRU class working correctly, try
+			    extending <code>java.util.LinkedList&lt;T&gt;</code> instead of
+			    <code>MyLinkedList</code> and see if it is a problem in your logic or in
+			    your MyLinkedList class.
+			</p>
+
+			<h2>Part 4 - RuntimeExploration</h2>
+			<p>
+			    For this next part, I want you to use a provided class called <tt>CollectionTimer</tt>
+			    that will let you compare the running time of using your MyLinkedList and
+			    MRUList to do a spell checking task.  
+			</p>
+
+			<p>
+			    What the CollectionTimer does is read in a list of known "good" words which it stores in a collection such as your MyLinkedList.  It then reads a fixed number of words from a second file and checks to see if they are contained in the "good" list or not.  The program will keep track of the number of words that matched or not, but that isn't displayed unless you enable debugging information in the CollectionTimer.  Instead, it displays the number of milliseconds that have elapsed during the performance of this task.  It only starts timing once it is doing the word list lookup, so setup time is not included.
+			</p>
+
+			<p>
+			    The program takes 6 arguments as described below.  The first 2 are
+			    required.  The other 4 are optional and are used to change the amount of
+			    work performed for each iteration.
+			</p>
+			<ol>
+			    <li>The name of the dictionary file</li>
+			    <li>The name of the document to be checked</li>
+			    <li>The number of words to initially read from the document (Default: 5000)</li>
+			    <li>The number of words to increase by for each run (Default: 5000)</li>
+			    <li>The number of times to increase (Default: 5)</li>
+			    <li>The number of times to re-run the test before averaging (Default: 5)</li>
+			</ol>
+
+			<p>
+			    Here is the output on my laptop using the default number of words, increments, and steps.
+			</p>
+
+			<!-- 
+			<pre class="boxed">
+			% <span class="typed">java CollectionTimer small-wordlist.txt pride-and-prejudice.txt</span>
+			Wordlist: small-wordlist.txt  Document: pride-and-prejudice.txt
+			words: 5000  increment: 5000  steps: 5  reps: 5
+			Class: MyLinkedList
+			=======================================
+			  1:    5000 words in     218 milliseconds
+			  2:   10000 words in     383 milliseconds
+			  3:   15000 words in     563 milliseconds
+			  4:   20000 words in     762 milliseconds
+			  5:   25000 words in     945 milliseconds
+
+			Wordlist: small-wordlist.txt  Document: pride-and-prejudice.txt
+			words: 5000  increment: 5000  steps: 5  reps: 5
+			Class: MRUList
+			=======================================
+			  1:    5000 words in     123 milliseconds
+			  2:   10000 words in     208 milliseconds
+			  3:   15000 words in     294 milliseconds
+			  4:   20000 words in     387 milliseconds
+			  5:   25000 words in     463 milliseconds
+
+			-->
+			<pre class="boxed">
+			% <span class="typed">java CollectionTimer medium-wordlist.txt pride-and-prejudice.txt</span>
+			Wordlist: medium-wordlist.txt  Document: pride-and-prejudice.txt
+			words: 5000  increment: 5000  steps: 5  reps: 5
+			Class: MyLinkedList
+			=======================================
+			  1:    5000 words in    2473 milliseconds
+			  2:   10000 words in    4848 milliseconds
+			  3:   15000 words in    7489 milliseconds
+			  4:   20000 words in    9731 milliseconds
+			  5:   25000 words in   12182 milliseconds
+
+			Wordlist: medium-wordlist.txt  Document: pride-and-prejudice.txt
+			words: 5000  increment: 5000  steps: 5  reps: 5
+			Class: MRUList
+			=======================================
+			  1:    5000 words in     908 milliseconds
+			  2:   10000 words in    1525 milliseconds
+			  3:   15000 words in    2092 milliseconds
+			  4:   20000 words in    2684 milliseconds
+			  5:   25000 words in    3310 milliseconds
+			</pre>
+
+			<p>
+			    I've included a number of wordlists for you to try comparing against.  I
+			    also included a copy of "Pride and Prejudice" from Project Gutenberg which
+			    has 121557 words which should contain more than enough text for you to test
+			    against for your loops.
+			    The wordlist files have the following word counts:
+			</p>
+			<ul>
+			    <li>small-wordlist.txt  (13566 words)</li>
+			    <li>medium-wordlist.txt (119805 words)</li>
+			    <li>big-wordlist.txt    (235886 words)</li>
+			    <li>large-wordlist.txt  (339884 words)</li>
+			    <li>huge-wordlist.txt   (653669 words)</li>
+			</ul>
+
+
+			<p>
+			You should not need to make any modifications to <code class="prettyprint">CollectionTimer</code>.  There is a <code>debug</code> flag that you can enable to let you see some of the inner workings.  This might be useful if you think that your MyLinkedList or MRUList might be losing items or not working correctly.
+			</p>
+
+			<!-- 
+			<h3>Runtime Exploration</h3>
+			<p>
+			After you have constructed your <tt>MyLinkedList</tt> and <tt>MRUList</tt>, I want you to take some observations about the relative runtimes of your data structures on this task.
+			</p>
+			-->
+
+			<h3>README Question 1</h3>
+			<p>
+			    Copy and paste the output from one run of CollectionTimer using small-wordlist.txt and pride-and-prejudice.txt with default for the rest.  I.e., the command I used just above.
+			</p>
+			<p>
+			    If you find that it is running too quickly/slowly, you may need to modify things from the default parameters.  If you do so, be sure to document what settings you are using in your README.  Try and have the number of lookups double, and then double again, to get a good range of observations.
+			</p>
+
+			<h3>README Question 2</h3>
+			<p>
+			The running time for this task should be linear in terms of the number of items in our wordlist.  (To determine a "miss" you would need to look at every word in the list.)  Let's call this <tt>n</tt>.  It is also linear in terms of the number of words to be read in. Let's call this <tt>m</tt>.  Taken together, you might express this as <tt>O(m n)</tt>.
+			</p>
+			<p>
+			    Looking at the table you've generated, as the size of <tt>m</tt> doubles, you would expect the worst case running time to also double.  Does this hold for your observations?  Be sure to consider MyLinkedList and MRUList separately.  Why do you think this is?
+			</p>
+
+			<h3>README Question 3</h3>
+			<p>
+			Now re-run your experiment from Question 1, but this time using the medium-wordlist.txt. 
+			Include this table in your README.
+			</p>
+			<p>
+			This wordlist is 9 times the size of small-wordlist.txt. 
+			How does this change the performance of each type of list?  Why do you think this is?
+			</p>
+			<p>
+			    Note: if this is running too slowly for you, you can run it for values "500 500 5 5", but include the chart for both small and medium.
+			</p>
+
+
+			<h3>README Question 4</h3>
+			<p>
+			    Now re-run your experiment but use pride-and-prejudice.txt as both the wordlist and the document to be checked.  Include this table in your README. What do you observe about the running times now?  Why do you think this is?
+			</p>
+
+			<h3>Honor code</h3>
+			<p> If you adhered to the honor code in this assignment, add the
+			  following statement to your <tt>README</tt> file: </p>
+			<blockquote class="honor">
+			  <p class="centered"> <q class="honor">I have adhered to the Honor Code in this assignment.</q> </p>
+			</blockquote>
+			<h2>Part 5 - handin</h2>
+			<p>
+			Look through your programs and make sure you've included your name at the top of
+			all of them.
+			</p>
+
+			<h3>README file</h3>
+			<p>Include in your submission a file named README. The contents of the README file should include the following:
+			</p>
+			<ol class="padded">
+			    <li>Your name and your partner's name</li>
+			    <li>A statement of the Honor Pledge</li>
+			    <li>Any known problems or assumptions made in your classes or program</li>
+			    <li>The answers to the questions from Part 4</li>
+			</ol>
+
+			<p>
+			Look through your programs and make sure you've included your name at the top of
+			all of them.
+			</p>
+
+			<p>
+			    We are expecting you to hand in at least the following files:
+			</p>
+			<ul>
+			    <li>MyLinkedList.java</li>
+			    <li>MyLinkedListTest.java</li>
+			    <li>MRUList.java</li>
+			    <li>MRUListTest.java</li>
+			    <li>README</li>
+			</ul>
+
+			<h3>&nbsp;</h3>
+			<blockquote class="honor">&nbsp;</blockquote>
+
+			<h3>handin</h3>
+			<p>
+			    You now just need to electronically handin all your files.  Assignment is
+			    <strong>4</strong>.
+			</p>
+
+			<p>
+			    Don't forget to run <tt>lshand</tt> and verify that things were submitted.
+			</p>
+
+
+
+
+			<hr>
+			<address>
+			<small>Last Modified: March 2017 <a href="mailto: bob.geitz@oberlin.edu">Bob Geitz</a> from previous versions by Ben Kuperman and Alexa Sharp</small><small><a href="http://www.vim.org/"><img src="http://www.cs.oberlin.edu/~kuperman/images/vim.jpg" style="float: right;" alt="VI Powered"></a></small>
+			</address>
+</div></section>
+</div>
+</body>
+</html>
